@@ -96,24 +96,24 @@ class RiderController extends Controller
     //Update status if online or offline
     public function updateStatus(Request $request)
     {
-        $token = $request->header('Authorization');
+        // $token = $request->header('Authorization');
 
-        if (!$token) {
-            return response()->json(['message' => 'Token required'], 401);
-        }
+        // if (!$token) {
+        //     return response()->json(['message' => 'Token required'], 401);
+        // }
 
-        $rider = Rider::where('api_token', $token)->first();
+        // $rider = Rider::where('api_token', $token)->first();
 
-        if (!$rider) {
-            return response()->json(['message' => 'Invalid token'], 401);
-        }
+        // if (!$rider) {
+        //     return response()->json(['message' => 'Invalid token'], 401);
+        // }
 
-        $request->validate([
-            'status' => 'required|string',
-        ]);
+        // $request->validate([
+        //     'status' => 'required|string',
+        // ]);
 
-        $rider->status = $request->status;
-        $rider->save();
+        // $rider->status = $request->status;
+        // $rider->save();
 
         return response()->json(['message' => 'Status updated']);
     }
