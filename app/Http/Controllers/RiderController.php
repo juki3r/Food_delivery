@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Rider;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -58,10 +59,15 @@ class RiderController extends Controller
             return response()->json(['message' => 'Invalid phone or password'], 401);
         }
 
+        // Generate a random token
+        $rider->api_token = Str::random(60);
+        $rider->save();
+
         // Success response (you can return more data)
         return response()->json([
             'message' => 'Login successful',
             'rider' => $rider,
+            'token' => $rider->api_token,
         ]);
     }
 
