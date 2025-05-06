@@ -42,5 +42,28 @@ class RiderController extends Controller
         }
     }
 
+    public function riderlogin(Request $request)
+    {
+        // Validate input
+        $request->validate([
+            'phone' => 'required',
+            'password' => 'required'
+        ]);
+
+        // Find rider by phone
+        $rider = Rider::where('phone', $request->phone)->first();
+
+        // Check if rider exists and password is correct
+        if (!$rider || !Hash::check($request->password, $rider->password)) {
+            return response()->json(['message' => 'Invalid phone or password'], 401);
+        }
+
+        // Success response (you can return more data)
+        return response()->json([
+            'message' => 'Login successful',
+            'rider' => $rider,
+        ]);
+    }
+
 
 }
