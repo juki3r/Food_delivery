@@ -115,7 +115,7 @@ class RiderController extends Controller
         // $rider->status = $request->status;
         // $rider->save();
 
-        return response()->json(['message' => $request->status]);
+        return response()->json(['message' => $rider]);
     }
 
 }
