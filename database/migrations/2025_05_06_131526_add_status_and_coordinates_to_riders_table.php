@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::table('riders', function (Blueprint $table) {
             $table->enum('status', ['online', 'offline'])->default('offline');
-            $table->string('current_location')->nullable();
+            $table->decimal('latitude', 10, 6)->nullable();
+            $table->decimal('longitude', 10, 6)->nullable();
         });
     }
 
@@ -23,7 +24,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('riders', function (Blueprint $table) {
-            $table->dropColumn(['status', 'current_location']);
+            $table->dropColumn(['status', 'latitude', 'longitude']);
         });
     }
 };
