@@ -96,7 +96,7 @@ class RiderController extends Controller
     //Update status if online or offline
     public function updateStatus(Request $request)
     {
-        // $token = $request->header('Authorization');
+        $token = $request->header('Authorization');
 
         // if (!$token) {
         //     return response()->json(['message' => 'Token required'], 401);
@@ -115,7 +115,7 @@ class RiderController extends Controller
         // $rider->status = $request->status;
         // $rider->save();
 
-        return response()->json(['message' => 'Status updated']);
+        return response()->json(['message' => $token]);
     }
 
 }
