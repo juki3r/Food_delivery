@@ -112,10 +112,10 @@ class RiderController extends Controller
             'status' => 'required|string',
         ]);
 
-        // $rider->status = $request->status;
-        // $rider->save();
+        $rider->status = $request->status;
+        $rider->save();
 
-        return response()->json(['message' => $rider]);
+        return response()->json(['message' => "Updated"]);
     }
 
 }
