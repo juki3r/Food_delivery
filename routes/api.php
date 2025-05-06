@@ -10,3 +10,4 @@ Route::get('/status', function () {
 
 Route::post('/riders/register', [RiderController::class, 'register']);
 Route::post('/riders/login', [RiderController::class, 'riderlogin']);
+Route::post('/riders/update-location', [RiderController::class, 'updateLocation']);

@@ -71,5 +71,26 @@ class RiderController extends Controller
         ]);
     }
 
+    //Update Location of the rider
+    public function updateLocation(Request $request)
+    {
+        $token = $request->header('Authorization');
+    
+        if (!$token) {
+            return response()->json(['message' => 'Token required'], 401);
+        }
+    
+        $rider = Rider::where('api_token', $token)->first();
+    
+        if (!$rider) {
+            return response()->json(['message' => 'Invalid token'], 401);
+        }
+    
+        $rider->latitude = $request->latitude;
+        $rider->longitude = $request->longitude;
+        $rider->save();
+    
+        return response()->json(['message' => 'Location updated']);
+    }
 
 }
