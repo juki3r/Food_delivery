@@ -32,7 +32,6 @@ class RiderController extends Controller
                 'message' => 'Rider registered successfully',
                 'rider' => $rider,
             ], 201);
-
         } catch (\Exception $e) {
             // In case of error, return failure response
             return response()->json([
@@ -75,32 +74,34 @@ class RiderController extends Controller
     public function updateLocation(Request $request)
     {
         $token = $request->header('Authorization');
-    
+
         if (!$token) {
             return response()->json(['message' => 'Token required'], 401);
         }
-    
+
         $rider = Rider::where('api_token', $token)->first();
-    
+
         if (!$rider) {
             return response()->json(['message' => 'Invalid token'], 401);
         }
-    
+
         $rider->latitude = $request->latitude;
         $rider->longitude = $request->longitude;
         $rider->save();
-    
+
         return response()->json(['message' => 'Location updated']);
     }
 
-    //Update status if online or offline
     public function updateStatus(Request $request)
     {
-        $token = $request->header('Authorization');
+        $bearerToken = $request->header('Authorization');
 
-        if (!$token) {
+        if (!$bearerToken) {
             return response()->json(['message' => 'Token required'], 401);
         }
+
+        // Remove "Bearer " prefix
+        $token = str_replace('Bearer ', '', $bearerToken);
 
         $rider = Rider::where('api_token', $token)->first();
 
@@ -109,13 +110,12 @@ class RiderController extends Controller
         }
 
         $request->validate([
-            'status' => 'required|string',
+            'status' => 'required|in:online,offline',
         ]);
 
         $rider->status = $request->status;
         $rider->save();
 
-        return response()->json(['message' => "Updated"]);
+        return response()->json(['message' => 'Status updated successfully.']);
     }
-
 }
