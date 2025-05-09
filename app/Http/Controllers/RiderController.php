@@ -140,6 +140,8 @@ class RiderController extends Controller
 
         // Return rider profile
         return response()->json([
+            'name' => $rider->name,
+            'phone' => $rider->phone,
             'status' => $rider->status,
         ]);
     }
