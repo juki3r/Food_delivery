@@ -118,4 +118,29 @@ class RiderController extends Controller
 
         return response()->json(['message' => 'Status updated successfully.']);
     }
+
+    public function getStatus(Request $request)
+    {
+        // Get token from the Authorization header
+        $authHeader = $request->header('Authorization');
+
+        if (!$authHeader || !str_starts_with($authHeader, 'Bearer ')) {
+            return response()->json(['message' => 'Authorization token missing'], 401);
+        }
+
+        // Extract token
+        $token = str_replace('Bearer ', '', $authHeader);
+
+        // Find the rider by token
+        $rider = Rider::where('api_token', $token)->first();
+
+        if (!$rider) {
+            return response()->json(['message' => 'Invalid token'], 401);
+        }
+
+        // Return rider profile
+        return response()->json([
+            'status' => $rider->status,
+        ]);
+    }
 }
