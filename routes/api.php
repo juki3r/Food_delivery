@@ -14,6 +14,7 @@ Route::post('/riders/login', [RiderController::class, 'riderlogin']);
 Route::post('/riders/update-location', [RiderController::class, 'updateLocation']);
 Route::post('/riders/update-status', [RiderController::class, 'updateStatus']);
 Route::get('/riders/get-status', [RiderController::class, 'getStatus']);
+Route::get('/pending-delivery', [RiderController::class, 'getPendingOrders']);
 
 
 //Customer

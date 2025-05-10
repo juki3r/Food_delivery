@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Models\Rider;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -144,5 +145,32 @@ class RiderController extends Controller
             'phone' => $rider->phone,
             'status' => $rider->status,
         ]);
+    }
+
+
+    public function getPendingOrders(Request $request)
+    {
+        // Get token from the Authorization header
+        $authHeader = $request->header('Authorization');
+
+        if (!$authHeader || !str_starts_with($authHeader, 'Bearer ')) {
+            return response()->json(['message' => 'Authorization token missing'], 401);
+        }
+
+        // Extract token
+        $token = str_replace('Bearer ', '', $authHeader);
+
+        // Find the rider by token
+        $rider = Rider::where('api_token', $token)->first();
+
+        if (!$rider) {
+            return response()->json(['message' => 'Invalid token'], 401);
+        }
+
+        // Fetch orders where status is 'pending' and assigned to the rider
+        $orders = Order::where('status', 'pending')->where('rider_id', $rider->id)->get();
+
+        // Return the orders as a JSON response
+        return response()->json($orders);
     }
 }
