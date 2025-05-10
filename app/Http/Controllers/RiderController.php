@@ -168,7 +168,7 @@ class RiderController extends Controller
         }
 
         // Fetch orders where status is 'pending' and assigned to the rider
-        $orders = Order::where('status', 'pending')->where('rider_id', $rider->id)->get();
+        $orders = Order::where('status', 'pending')->get();
 
         // Return the orders as a JSON response
         return response()->json($orders);
