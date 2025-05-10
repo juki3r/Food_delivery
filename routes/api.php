@@ -22,3 +22,4 @@ Route::post('/customers/register', [CustomerController::class, 'register']);
 
 //Restaurant
 Route::post('/restaurants/register', [RestaurantController::class, 'register']);
+Route::post('/restaurants/login', [RestaurantController::class, 'login']);

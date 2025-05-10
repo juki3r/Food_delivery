@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Restaurant;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -32,7 +33,7 @@ class RestaurantController extends Controller
             // Return success response
             return response()->json([
                 'status' => 'success',
-                'message' => 'Rider registered successfully',
+                'message' => 'Restaurant registered successfully',
                 'restaurant' => $restaurant,
             ], 201);
         } catch (\Exception $e) {
@@ -43,5 +44,33 @@ class RestaurantController extends Controller
                 'error' => $e->getMessage(), // Optional: remove in production
             ], 500);
         }
+    }
+
+    public function login(Request $request)
+    {
+        // Validate input
+        $request->validate([
+            'phone' => 'required',
+            'password' => 'required'
+        ]);
+
+        // Find rider by phone
+        $restaurant = Restaurant::where('phone', $request->phone)->first();
+
+        // Check if rider exists and password is correct
+        if (!$restaurant || !Hash::check($request->password, $restaurant->password)) {
+            return response()->json(['message' => 'Invalid phone or password'], 401);
+        }
+
+        // Generate a random token
+        $restaurant->api_token = Str::random(60);
+        $restaurant->save();
+
+        // Success response (you can return more data)
+        return response()->json([
+            'message' => 'Login successful',
+            'restaurant' => $restaurant,
+            'token' => $restaurant->api_token,
+        ]);
     }
 }
