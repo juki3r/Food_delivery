@@ -3,7 +3,7 @@
 use App\Http\Controllers\CustomerController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RiderController;
-
+use App\Models\Restaurant;
 
 Route::get('/status', function () {
     return response()->json(['status' => 'API is working']);
@@ -19,3 +19,6 @@ Route::get('/pending-delivery', [RiderController::class, 'getPendingOrders']);
 
 //Customer
 Route::post('/customers/register', [CustomerController::class, 'register']);
+
+//Restaurant
+Route::post('/restaurants/register', [Restaurant::class, 'register']);
