@@ -13,9 +13,9 @@ class RestaurantController extends Controller
         // Validation (this will automatically check if the phone number is unique)
         $request->validate([
             'restaurant_name' => 'required|string|max:255',
-            'phone' => 'required|string|unique:restaurants,phone',
             'owner_name' => 'required|string|max:255',
             'address' => 'required|string|max:255',
+            'phone' => 'required|string|unique:restaurants,phone',
             'password' => 'required|string|min:8',
         ]);
 
