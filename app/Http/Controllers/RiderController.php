@@ -173,7 +173,7 @@ class RiderController extends Controller
         // Include customer name in the order response
         $ordersWithCustomerName = $orders->map(function ($order) {
             // Assuming 'user' relationship is defined in the Order model
-            $order->customer_name = $order->user ? $order->user->name : null; // Retrieve customer name
+            $order->name = $order->user ? $order->user->name : null; // Retrieve customer name
             return $order;
         });
 
